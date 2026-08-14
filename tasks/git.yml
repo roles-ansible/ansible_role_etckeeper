@@ -1,0 +1,42 @@
+---
+- name: Make sure /etc is marked as safe
+  become: true
+  community.general.git_config:
+    name: 'safe.directory'
+    scope: 'local'
+    value: '/etc'
+    repo: '/etc'
+
+- name: Adding git remote url
+  become: true
+  community.general.git_config:
+    name: "remote.{{ item.remote }}.url"
+    value: "{{ item.repo }}"
+    scope: 'local'
+    repo: '/etc'
+  loop: "{{ etckeeper__git_remote }}"
+
+- name: Adding git remote fetch
+  become: true
+  community.general.git_config:
+    name: "remote.{{ item.remote }}.fetch"
+    value: "+refs/heads/*:refs/remotes/{{ item.remote }}/*"
+    scope: 'local'
+    repo: '/etc'
+  loop: "{{ etckeeper__git_remote }}"
+
+- name: Set git user name
+  become: true
+  community.general.git_config:
+    name: 'user.name'
+    value: "{{ etckeeper__git_name }}"
+    scope: 'local'
+    repo: '/etc'
+
+- name: Set git User-Email
+  become: true
+  community.general.git_config:
+    name: 'user.email'
+    value: "{{ etckeeper__git_email }}"
+    scope: 'local'
+    repo: '/etc'

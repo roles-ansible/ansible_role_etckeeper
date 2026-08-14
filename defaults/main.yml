@@ -1,3 +1,31 @@
 ---
+etckeeper__vcs: 'git'
+etckeeper__git_commit_options: ''
+etckeeper__hg_commit_options: ''
+etckeeper__bzr_commit_options: ''
+etckeeper__darcs_commit_options: '-a'
+etckeeper__daily_commits_per_systemd: true
+etckeeper__avoid_commit_before_install: false
+etckeeper__push_remotes: ''
+etckeeper__git_remote: []
+#  - remote: 'origin'
+#    repo: 'https://git.example.org/foo/bar.git'
+
+etckeeper__git_name: "etckeeper on {{ inventory_hostname }}"
+etckeeper__git_email: "root@{{ inventory_hostname }}"
+
+etckeeper__gitignore: []
+
+etckeeper__highlevel_package_manager: "{{ ansible_facts['pkg_mgr'] }}"
+# (apt, pacman, pacman-g2, yum, dnf, zypper, apk, xbps, emerge, cave, etc)
+
+etckeeper_lowlevel_package_manager: 'dpkg'
+# (dpkg, rpm, pacman, pacmatic, pacman-g2, apk, xbps, cave, qlist, etc)
+
+etckeeper__requirements:
+  - git
+
+etckeeper__package_name: 'etckeeper'
+
 # should we do a version check? (recomended)
 submodules_versioncheck: false

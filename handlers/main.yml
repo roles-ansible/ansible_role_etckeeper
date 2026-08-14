@@ -1,0 +1,10 @@
+---
+- name: Make sure changes are commited by etckeeper
+  become: true
+  listen: 'etckeeper.service'
+  ansible.builtin.systemd_service:
+    name: 'etckeeper.service'
+    state: 'started'
+  when:
+    - etckeeper__daily_commits_per_systemd | bool
+    - not ansible_check_mode | bool

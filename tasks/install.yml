@@ -1,0 +1,22 @@
+---
+- name: Update apt repo-cache on debian/ubuntu hosts
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when:
+    - ansible_facts['pkg_mgr'] == "apt"
+
+- name: Install Requirements for etckeeper
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: 'present'
+  with_items: "{{ etckeeper__requirements }}"
+
+- name: Install etckeeper
+  become: true
+  ansible.builtin.package:
+    name: "{{ etckeeper__package_name }}"
+    state: 'present'
+  notify: 'etckeeper.service'

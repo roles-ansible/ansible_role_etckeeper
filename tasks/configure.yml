@@ -1,0 +1,22 @@
+---
+- name: Create etckeeper config file
+  become: true
+  ansible.builtin.template:
+    src: 'templates/etckeeper.conf.j2'
+    dest: '/etc/etckeeper/etckeeper.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    backup: true
+  notify: 'etckeeper.service'
+
+- name: Create .gitignore for etckeeper
+  become: true
+  ansible.builtin.template:
+    src: 'templates/gitignore.j2'
+    dest: '/etc/.gitignore'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    backup: true
+  notify: 'etckeeper.service'

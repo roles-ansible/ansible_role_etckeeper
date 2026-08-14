@@ -3,3 +3,23 @@
   ansible.builtin.include_tasks:
     file: 'versioncheck.yml'
   when: submodules_versioncheck | bool
+
+- name: Install Packages for etckeeper
+  ansible.builtin.include_tasks:
+    file: 'install.yml'
+
+- name: Configure etckeeper
+  ansible.builtin.include_tasks:
+    file: 'configure.yml'
+
+- name: Improve git config
+  ansible.builtin.include_tasks:
+    file: 'git.yml'
+  when: not ansible_check_mode | bool
+
+- name: Make sure systemd is enabled
+  ansible.builtin.include_tasks:
+    file: 'systemd.yml'
+  when:
+    - etckeeper__daily_commits_per_systemd | bool
+    - not ansible_check_mode | bool
